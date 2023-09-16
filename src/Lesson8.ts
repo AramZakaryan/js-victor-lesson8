@@ -1,16 +1,19 @@
-// 1. Функция sum принимает параметром целые положительные
+// + 1. Функция sum принимает параметром целые положительные
 // числа (неопределённое кол-во) и возвращает их сумму (rest).
+
 export function sum(...nums: Array<number>): number {
     return nums.reduce((acc, el) => acc + el)
 }
 
-// 2. Функция getTriangleType принимает три параметра:
+
+// + 2. Функция getTriangleType принимает три параметра:
 // длины сторон треугольника.
 // Функция должна возвращать:
 //  - "10", если треугольник равносторонний,
 //  - "01", если треугольник равнобедренный,
 //  - "11", если треугольник обычный,
 //  - "00", если такого треугольника не существует.
+
 export function getTriangleType(a: number, b: number, c: number): string {
     if (a + b < c || a + c < b || c + b < a) {
         return "00"
@@ -23,13 +26,16 @@ export function getTriangleType(a: number, b: number, c: number): string {
     }
 }
 
-// 3. Функция getSum принимает параметром целое число и возвращает
+
+// + 3. Функция getSum принимает параметром целое число и возвращает
 // сумму цифр этого числа
 
 export function getSum(number: number): number {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return 123
+    return number.toString()
+        .split("")
+        .reduce((acc, el) =>
+                acc + Number(el)
+            , 0)
 }
 
 
@@ -39,32 +45,42 @@ export function getSum(number: number): number {
 // В противном случае - false.
 
 export const isEvenIndexSumGreater = (arr: Array<number>): boolean => {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return true
+    const sumEvenInd = arr.reduce((acc, el, ind) =>
+        acc + (ind % 2 === 0 ? el : 0)
+    )
+    const sumOddInd = arr.reduce((acc, el, ind) =>
+        acc + (ind % 2 !== 0 ? el : 0)
+    )
+
+    return sumEvenInd > sumOddInd
 }
 
-// 5. Функция getSquarePositiveIntegers принимает параметром массив чисел и возвращает новый массив. 
-// Новый массив состоит из квадратов целых положительных чисел, котрые являются элементами исходгого массива.
+
+// 5. Функция getSquarePositiveIntegers принимает параметром массив чисел
+// и возвращает новый массив.
+// Новый массив состоит из квадратов целых положительных чисел,
+// котрые являются элементами исходгого массива.
 // Исходный массив не мутирует.
 
-
-export function getSquarePositiveIntegers(array: Array<number>): Array<number> {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return []
+export function getSquarePositiveIntegers(arr: Array<number>): Array<number> {
+    return (
+        arr.filter(el => el % 1 === 0 && el > 0)
+            .map(el => el ** 2)
+    )
 }
 
-// 6. Функция принимает параметром целое не отрицательное число N и возвращает сумму всех чисел от 0 до N включительно
+
+// 6. Функция принимает параметром целое не отрицательное число N
+// и возвращает сумму всех чисел от 0 до N включительно
 // Попробуйте реализовать функцию без использования перебирающих методов.
 
 export function sumFirstNumbers(N: number): number {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return 0
+    let res = 0
+    for (let i = 1; i <= N; i++) {
+        res += i
+    }
+    return res
 }
-
-// ...и "лапку" вверх!!!!
 
 
 // Д.З.:
@@ -74,9 +90,19 @@ export function sumFirstNumbers(N: number): number {
 // const banknotes = [1000, 500, 100, 50, 20, 10, 5, 2, 1].
 // Считаем, что количество банкнот каждого номинала не ограничено
 
-
-export function getBanknoteList(amountOfMoney: number): Array<number> {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return [1]
+// export function getBanknoteList(amountOfMoney: number): Array<number> {
+export function getBanknoteList(amountOfMoney: number){
+    let resArr: number[] = []
+    let remaining = amountOfMoney
+    const banknotes = [1000, 500, 100, 50, 20, 10, 5, 2, 1]
+    let k = 0 // index of banknotes
+    for (let i = 0; remaining!==0; i++) {
+        if (remaining - banknotes[k] >= 0) {
+            resArr.push(banknotes[k])
+            remaining = remaining - banknotes[k]
+        } else {
+            k++
+        }
+    }
+    return resArr
 }
